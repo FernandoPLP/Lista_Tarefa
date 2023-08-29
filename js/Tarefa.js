@@ -8,6 +8,7 @@ botao.addEventListener("click", (evt) => {
     const inputTarefa = document.getElementById("id-tarefa");
     const inputDesc = document.getElementById("id-desc");
     const inputAutor = document.getElementById("id-autor");
+    const inputDep = document.getElementById("id-dep");
     const inputImportPouco = document.getElementById("id-import1");
     const inputImportMedio = document.getElementById("id-import2");
     const inputImportAlto = document.getElementById("id-import3");
@@ -18,17 +19,19 @@ botao.addEventListener("click", (evt) => {
     const td3 = document.createElement("td");
     const td4 = document.createElement("td");
     const td5 = document.createElement("td");
+    const td6 = document.createElement("td");
 
     td1.textContent = inputTarefa.value;
     td2.textContent = inputDesc.value;
     td3.textContent = inputAutor.value;
+    td4.textContent = inputDep.value
 
     if (inputImportAlto.checked) {
-        td4.textContent = "Alta";
+        td5.textContent = "Alta";
     } else if (inputImportMedio.checked) {
-        td4.textContent = "Média";
+        td5.textContent = "Média";
     } else if (inputImportPouco.checked) {
-        td4.textContent = "Pouca";
+        td5.textContent = "Pouca";
     } else {
         td4.textContent = "N/A";
     }
@@ -37,13 +40,14 @@ botao.addEventListener("click", (evt) => {
     botaoDeExcluir.textContent = " x "
     botaoDeExcluir.classList.add("btnEx")
     
-    td5.appendChild(botaoDeExcluir)
+    td6.appendChild(botaoDeExcluir)
 
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
-    tr.appendChild(td5)
+    tr.appendChild(td5);
+    tr.appendChild(td6)
 
     table.appendChild(tr);
 
@@ -60,41 +64,31 @@ botao.addEventListener("click", (evt) => {
         const listaemArray = Array.from(table.querySelectorAll("tr:not(:first-child)"));
     
         listaemArray.sort((a, b) => {
-            const importancia1 = a.cells[3].textContent;
-            const importancia2 = b.cells[3].textContent;
+            console.log(a,b)
+            const importancia1 = a.cells[4].textContent;
+            const importancia2 = b.cells[4].textContent;
     
             const importanciaOrdem = {
                 "Pouca": 1,
                 "Média": 2,
                 "Alta": 3,
-                "N/A": 4
+                "N/A": 0
             };
     
             return importanciaOrdem[importancia2] - importanciaOrdem[importancia1];
         });
-    
-        // Limpar a tabela
+        
         listaemArray.forEach(item => table.removeChild(item));
     
-        // Adicionar as linhas ordenadas de volta à tabela
         listaemArray.forEach(item => table.appendChild(item));
     });
-
-
-    
-
-
-
 
     inputTarefa.value = "";
     inputDesc.value = "";
     inputAutor.value = "";
+    inputDep.value = "";
     inputImportPouco.checked = false;
     inputImportMedio.checked = false;
     inputImportAlto.checked = false;
-
-    
-
-
 
 });
