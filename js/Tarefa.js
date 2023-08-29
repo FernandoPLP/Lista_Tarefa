@@ -1,5 +1,6 @@
 const botao = document.querySelector("#btnAddTarefa");
 const table = document.querySelector("table");
+const botaoOrdenar = document.querySelector("#btnOrdenar")
 
 botao.addEventListener("click", (evt) => {
     evt.preventDefault();
@@ -34,7 +35,8 @@ botao.addEventListener("click", (evt) => {
 
     let botaoDeExcluir = document.createElement("button")
     botaoDeExcluir.textContent = " x "
-   
+    botaoDeExcluir.classList.add("btnEx")
+    
     td5.appendChild(botaoDeExcluir)
 
     tr.appendChild(td1);
@@ -50,6 +52,39 @@ botao.addEventListener("click", (evt) => {
 
         tr.remove()
     })
+    
+    
+    botaoOrdenar.addEventListener("click", (evt) => {
+        evt.preventDefault();
+    
+        const listaemArray = Array.from(table.querySelectorAll("tr:not(:first-child)"));
+    
+        listaemArray.sort((a, b) => {
+            const importancia1 = a.cells[3].textContent;
+            const importancia2 = b.cells[3].textContent;
+    
+            const importanciaOrdem = {
+                "Pouca": 1,
+                "Média": 2,
+                "Alta": 3,
+                "N/A": 4
+            };
+    
+            return importanciaOrdem[importancia2] - importanciaOrdem[importancia1];
+        });
+    
+        // Limpar a tabela
+        listaemArray.forEach(item => table.removeChild(item));
+    
+        // Adicionar as linhas ordenadas de volta à tabela
+        listaemArray.forEach(item => table.appendChild(item));
+    });
+
+
+    
+
+
+
 
     inputTarefa.value = "";
     inputDesc.value = "";
@@ -57,5 +92,9 @@ botao.addEventListener("click", (evt) => {
     inputImportPouco.checked = false;
     inputImportMedio.checked = false;
     inputImportAlto.checked = false;
+
+    
+
+
 
 });
